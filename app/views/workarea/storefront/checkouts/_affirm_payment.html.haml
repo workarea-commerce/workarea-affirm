@@ -1,0 +1,12 @@
+- if Workarea::Affirm.api_configured?
+  .checkout-payment__primary-method
+    .button-property
+      .value= radio_button_tag 'payment', 'affirm', step.affirm?, data: { affirm_payment_trigger: '' }
+      = label_tag 'payment[affirm]', nil, class: 'button-property__name' do
+        %span.payment-icon.payment-icon--affirm
+    %p.checkout-payment__primary-method-description
+      %span.affirm-as-low-as.affirm-as-low-as--payment{ data: { amount: step.order.total_price.cents, affirm_type: 'text', learnmore_show: 'false'}}
+    %p.checkout-payment__primary-method-edit
+      %span= t('workarea.storefront.affirm.on_continue')
+
+    = render 'workarea/storefront/checkouts/affirm_cart'

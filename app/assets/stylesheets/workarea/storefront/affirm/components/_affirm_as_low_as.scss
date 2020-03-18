@@ -1,0 +1,12 @@
+.affirm-as-low-as {}
+.affirm-as-low-as--pdp {}
+.affirm-as-low-as--cart {}
+.affirm-as-low-as--payment {}
+
+  .affirm-as-low-as__subtext {
+    font-weight: bold;
+
+    .payment-icon--affirm {
+      vertical-align: text-bottom;
+    }
+  }
