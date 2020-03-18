@@ -1,0 +1,18 @@
+/*------------------------------------*\
+    #PAYMENT-ICON
+\*------------------------------------*/
+
+/**
+* These rules extend `.payment-icon {}` in _payment-icon.scss.
+*/
+
+.payment-icon {}
+
+.payment-icon--affirm {
+    height: 20px;
+    width: 65px;
+    background: url(https://cdn-assets.affirm.com/images/blue_logo-transparent_bg.png);
+    background-position: 0;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
