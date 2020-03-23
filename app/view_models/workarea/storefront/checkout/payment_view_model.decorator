@@ -1,0 +1,11 @@
+module Workarea
+  decorate Storefront::Checkout::PaymentViewModel, with: :affirm do
+    decorated do
+      delegate :affirm?, to: :payment
+    end
+
+    def using_new_card?
+      super && !affirm?
+    end
+  end
+end

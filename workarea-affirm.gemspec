@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.version     = Workarea::Affirm::VERSION
   spec.authors     = ["Jeff Yucis"]
   spec.email       = ["jyucis@workarea.com"]
-  spec.homepage    = "TODO"
-  spec.summary     = "TODO: Summary of Affirm."
-  spec.description = "TODO: Description of Affirm."
+  spec.homepage    = "https://github.com/workarea-commerce/workarea-affirm"
+  spec.summary     = "Affirm payments for Workarea Commerce"
+  spec.description = "Affirm payments solution"
   spec.license     = "Business Software License"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -26,4 +26,5 @@ Gem::Specification.new do |spec|
   spec.files = `git ls-files`.split("\n")
 
   spec.add_dependency 'workarea', '~> 3.x'
+  spec.add_dependency "faraday", "~> 0.10"
 end

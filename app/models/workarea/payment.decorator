@@ -1,0 +1,31 @@
+module Workarea
+  decorate Payment, with: :affirm do
+    decorated do
+      embeds_one :affirm, class_name: 'Workarea::Payment::Tender::Affirm'
+    end
+
+    def affirm?
+      affirm.present?
+    end
+
+    def set_affirm(attrs)
+      build_affirm unless affirm
+      affirm.attributes = attrs.slice(
+        :checkout_token,
+        :details
+      )
+
+      save!
+    end
+
+    def clear_affirm
+      self.affirm = nil
+      save
+    end
+
+    def set_credit_card(*)
+      self.affirm = nil
+      super
+    end
+  end
+end

@@ -1,0 +1,38 @@
+---
+en:
+  workarea:
+    admin:
+      orders:
+        tenders:
+          affirm:
+            title: Affirm
+    storefront:
+      orders:
+        tenders:
+          affirm: Affirm
+      affirm:
+        address_error: We can not ship to this address. Please enter a new address.
+        cancel_message: Your Affirm order has been cancelled. Please select another payment method.
+        check_out: Check Out with affirm
+        checkout_submit_text: Continue to Affirm
+        on_continue: When you continue, you will be taken to the Affirm website to complete your order.
+        paid_with_affirm: Paid with Affirm
+        payment_error: There was a problem processing your Affirm payment.
+        affirm: Affirm
+        learn_more: Learn More
+        select: Select
+        payment_step: on Payment Step of checkout
+    affirm:
+      authorize: "%{amount} has been authorized"
+      capture: "%{amount} has been captured"
+      purchase: "%{amount} has been purchased"
+      refund: "%{amount} has been refunded"
+      void: "Aftperay Transaction has been voided"
+      authorize_failure: "Affirm authorize has failed"
+      capture_failure: "Affirm capture has failed"
+      purchase_failure: "Affirm purchase has failed"
+      refund_failure: "Affirm refund has failed"
+      tender_description: "Paid with Affirm"
+      purchase_authorize_failure: "Affirm authorize has failed during the purchase operation"
+      purchase_capture_failure: "Affirm capture has failed during the purchase operation"
+
