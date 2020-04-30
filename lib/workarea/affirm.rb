@@ -20,6 +20,10 @@ module Workarea
       public_key.present? && private_key.present?
     end
 
+    def self.enabled?
+      Workarea.config.affirm_enabled && api_configured?
+    end
+
     def self.js_sdk_url
       if test?
         "https://cdn1-sandbox.affirm.com/js/v2/affirm.js"
