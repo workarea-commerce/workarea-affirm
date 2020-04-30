@@ -25,5 +25,6 @@ Workarea::Plugin.append_stylesheets(
 
 Workarea::Plugin.append_javascripts(
   'storefront.modules',
-  'workarea/storefront/affirm/modules/affirm_payment_triggers'
+  'workarea/storefront/affirm/modules/affirm_payment_triggers',
+  'workarea/storefront/affirm/modules/affirm_refresh'
 )
