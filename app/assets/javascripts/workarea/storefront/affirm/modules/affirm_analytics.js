@@ -1,6 +1,16 @@
 WORKAREA.analytics.registerAdapter('affirm', function () {
     var productListImpressions = [],
 
+        whenAffirmReady = function (fn) {
+              if (window.affirm && affirm.ui && affirm.analytics) {
+                  return function (payload) {
+                      affirm.ui.ready(function () { fn(payload); });
+                  };
+              } else {
+                  return $.noop;
+              }
+        },
+
         buildProduct = function (payload) {
             return {
                 'category': payload.category,
@@ -40,93 +50,71 @@ WORKAREA.analytics.registerAdapter('affirm', function () {
           productListImpressions = productListImpressions.concat(payload.impressions);
       },
 
-      'categoryView': function (payload) {
-          affirm.ui.ready(function () {
-              affirm.analytics.trackProductListViewed(
-                  { 'listId': payload.id, 'name': payload.name },
-                  _.map(productListImpressions, buildProduct)
-              );
-          });
-      },
+      'categoryView': whenAffirmReady(function (payload) {
+          affirm.analytics.trackProductListViewed(
+              { 'listId': payload.id, 'name': payload.name },
+              _.map(productListImpressions, buildProduct)
+          );
+      }),
 
-      'searchResultsView': function (payload) {
-          affirm.ui.ready(function () {
-              affirm.analytics.trackProductsSearched(payload.terms);
-              affirm.analytics.trackProductListViewed(
-                  { 'listId': payload.terms },
-                  _.map(productListImpressions, buildProduct)
-              );
-          });
-      },
+      'searchResultsView': whenAffirmReady(function (payload) {
+          affirm.analytics.trackProductsSearched(payload.terms);
+          affirm.analytics.trackProductListViewed(
+              { 'listId': payload.terms },
+              _.map(productListImpressions, buildProduct)
+          );
+      }),
 
-      'productClick': function (payload) {
-          affirm.ui.ready(function () {
-              affirm.analytics.trackProductClicked(buildProduct(payload));
-          });
-      },
+      'productClick': whenAffirmReady(function (payload) {
+          affirm.analytics.trackProductClicked(buildProduct(payload));
+      }),
 
-      'productView': function (payload) {
-          affirm.ui.ready(function () {
-              affirm.analytics.trackProductViewed(buildProduct(payload));
-          });
-      },
+      'productView': whenAffirmReady(function (payload) {
+          affirm.analytics.trackProductViewed(buildProduct(payload));
+      }),
 
-      'addToCart': function (payload) {
-          affirm.ui.ready(function () {
-              affirm.analytics.trackProductAdded(buildItem(payload));
-          });
-      },
+      'addToCart': whenAffirmReady(function (payload) {
+          affirm.analytics.trackProductAdded(buildItem(payload));
+      }),
 
-      'removeFromCart': function (payload) {
-          affirm.ui.ready(function () {
-              affirm.analytics.trackProductRemoved(buildItem(payload));
-          });
-      },
+      'removeFromCart': whenAffirmReady(function (payload) {
+          affirm.analytics.trackProductRemoved(buildItem(payload));
+      }),
 
-      'cartView': function (payload) {
-          affirm.ui.ready(function () {
-              affirm.analytics.trackCartViewed(_.map(payload.items, buildItem));
-          });
-      },
+      'cartView': whenAffirmReady(function (payload) {
+          affirm.analytics.trackCartViewed(_.map(payload.items, buildItem));
+      }),
 
-      'checkoutAddressesView': function (payload) {
-          affirm.ui.ready(function () {
-              var order = buildOrder(payload);
+      'checkoutAddressesView': whenAffirmReady(function (payload) {
+          var order = buildOrder(payload);
 
-              affirm.analytics.trackCheckoutStarted(
-                order,
-                _.map(payload.items, buildItem)
-              );
+          affirm.analytics.trackCheckoutStarted(
+            order,
+            _.map(payload.items, buildItem)
+          );
 
-              affirm.analytics.trackCheckoutStepViewed(1, order);
-          });
-      },
+          affirm.analytics.trackCheckoutStepViewed(1, order);
+      }),
 
-      'checkoutShippingView': function (payload) {
-          affirm.ui.ready(function () {
-              var order = buildOrder(payload);
-              affirm.analytics.trackCheckoutStepCompleted(1, order);
-              affirm.analytics.trackCheckoutStepViewed(2, order);
-          });
-      },
+      'checkoutShippingView': whenAffirmReady(function (payload) {
+          var order = buildOrder(payload);
+          affirm.analytics.trackCheckoutStepCompleted(1, order);
+          affirm.analytics.trackCheckoutStepViewed(2, order);
+      }),
 
-      'checkoutPaymentView': function (payload) {
-          affirm.ui.ready(function () {
-              var order = buildOrder(payload);
-              affirm.analytics.trackCheckoutStepCompleted(2, order);
-              affirm.analytics.trackCheckoutStepViewed(3, order);
-          });
-      },
+      'checkoutPaymentView': whenAffirmReady(function (payload) {
+          var order = buildOrder(payload);
+          affirm.analytics.trackCheckoutStepCompleted(2, order);
+          affirm.analytics.trackCheckoutStepViewed(3, order);
+      }),
 
-      'checkoutOrderPlaced': function (payload) {
-          affirm.ui.ready(function () {
-              var order = buildOrder(payload);
-              affirm.analytics.trackCheckoutStepCompleted(3, order);
-              affirm.analytics.trackOrderConfirmed(
-                  order,
-                  _.map(payload.items, buildItem)
-              );
-          });
-      }
+      'checkoutOrderPlaced': whenAffirmReady(function (payload) {
+          var order = buildOrder(payload);
+          affirm.analytics.trackCheckoutStepCompleted(3, order);
+          affirm.analytics.trackOrderConfirmed(
+              order,
+              _.map(payload.items, buildItem)
+          );
+      })
     };
 });
