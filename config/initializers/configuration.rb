@@ -1,5 +1,10 @@
 Workarea::Configuration.define_fields do
   fieldset 'Affirm', namespaced: true do
+    field 'Enabled',
+      type: :boolean,
+      description: 'Whether to enable Affirm functionality throughout the site',
+      default: true
+
     field 'Public Key',
       type: :string,
       description: 'Public API key. Found in the Affirm API Keys admin section.',

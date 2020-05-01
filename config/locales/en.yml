@@ -22,6 +22,7 @@ en:
         learn_more: Learn More
         select: Select
         payment_step: on Payment Step of checkout
+        minimum_warning: Add %{amount} to your cart to pay with Affirm.
     affirm:
       authorize: "%{amount} has been authorized"
       capture: "%{amount} has been captured"
@@ -35,4 +36,3 @@ en:
       tender_description: "Paid with Affirm"
       purchase_authorize_failure: "Affirm authorize has failed during the purchase operation"
       purchase_capture_failure: "Affirm capture has failed during the purchase operation"
-

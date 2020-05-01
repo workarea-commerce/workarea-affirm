@@ -1,4 +1,4 @@
-- if Workarea::Affirm.api_configured?
+- if Workarea::Affirm.enabled?
   :javascript
     _affirm_config = {
        public_api_key:  "#{Workarea.config.affirm_public_key}",
