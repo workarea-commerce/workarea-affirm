@@ -1,12 +1,22 @@
-- if Workarea::Affirm.enabled? && current_order.total_price >= Workarea.config.affirm_minimum_order_value.to_m
+- if Workarea::Affirm.enabled?
   .checkout-payment__primary-method
-    .button-property
-      .value= radio_button_tag 'payment', 'affirm', step.affirm?, data: { affirm_payment_trigger: '' }
-      = label_tag 'payment[affirm]', nil, class: 'button-property__name' do
-        %span.payment-icon.payment-icon--affirm
-    %p.checkout-payment__primary-method-description
-      %span.affirm-as-low-as.affirm-as-low-as--payment{ data: { amount: step.order.total_price.cents, affirm_type: 'text', learnmore_show: 'false'}}
-    %p.checkout-payment__primary-method-edit
-      %span= t('workarea.storefront.affirm.on_continue')
+    - minimum = Workarea.config.affirm_minimum_order_value.to_m
 
-    = render 'workarea/storefront/checkouts/affirm_cart'
+    - if current_order.total_price < minimum
+      .button-property
+        .value= radio_button_tag nil, nil, false, disabled: true
+        = label_tag nil, nil, class: 'button-property__name' do
+          %span.payment-icon.payment-icon--affirm
+          = t('workarea.storefront.affirm.minimum_warning', amount: number_to_currency(minimum - current_order.total_price))
+
+    - else
+      .button-property
+        .value= radio_button_tag 'payment', 'affirm', step.affirm?, data: { affirm_payment_trigger: '' }
+        = label_tag 'payment[affirm]', nil, class: 'button-property__name' do
+          %span.payment-icon.payment-icon--affirm
+      %p.checkout-payment__primary-method-description
+        %span.affirm-as-low-as.affirm-as-low-as--payment{ data: { amount: step.order.total_price.cents, affirm_type: 'text', learnmore_show: 'false'}}
+      %p.checkout-payment__primary-method-edit
+        %span= t('workarea.storefront.affirm.on_continue')
+
+      = render 'workarea/storefront/checkouts/affirm_cart'
