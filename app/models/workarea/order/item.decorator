@@ -1,0 +1,7 @@
+module Workarea
+  decorate Order::Item, with: 'affirm' do
+    def affirm_available?
+      !!product_attributes['affirm_available']
+    end
+  end
+end

@@ -1,3 +1,3 @@
-- if Workarea::Affirm.enabled?
+- if Workarea::Affirm.enabled? && current_order.affirm_available?
   :javascript
     affirm.checkout(#{raw(Workarea::Affirm::Order.new(current_order.id, request: request).to_json)});

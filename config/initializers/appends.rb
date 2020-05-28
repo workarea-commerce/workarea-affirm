@@ -1,4 +1,9 @@
 Workarea.append_partials(
+  'admin.product_fields',
+  'workarea/admin/catalog_products/affirm'
+)
+
+Workarea.append_partials(
   'storefront.document_head',
   'workarea/storefront/affirm/affirm_javascript_sdk'
 )

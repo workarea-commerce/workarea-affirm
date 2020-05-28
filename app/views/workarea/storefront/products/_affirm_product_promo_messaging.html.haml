@@ -1,4 +1,4 @@
-- if Workarea::Affirm.enabled? &&  @product.sell_min_price.present?
+- if Workarea::Affirm.enabled? && @product.affirm_available? && @product.sell_min_price.present?
   .affirm-as-low-as.affirm-as-low-as--cart{ data: { amount: @product.sell_min_price.cents, affirm_type: 'text', learnmore_show: 'false'}}
   .affirm-as-low-as__subtext
     Select
