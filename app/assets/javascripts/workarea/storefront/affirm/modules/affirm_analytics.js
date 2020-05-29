@@ -2,7 +2,7 @@ WORKAREA.analytics.registerAdapter('affirm', function () {
     var productListImpressions = [],
 
         whenAffirmReady = function (fn) {
-              if (window.affirm && affirm.ui && affirm.analytics) {
+              if (window.affirm && affirm.ui) {
                   return function (payload) {
                       affirm.ui.ready(function () { fn(payload); });
                   };

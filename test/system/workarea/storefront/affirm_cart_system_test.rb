@@ -40,6 +40,20 @@ module Workarea
         refute(page.has_selector?('.affirm-as-low-as', visible: false))
       end
 
+      def test_order_does_not_qualify
+        @product.update!(affirm_available: false)
+
+        visit storefront.product_path(@product)
+        select @product.skus.first, from: 'sku'
+        click_button t('workarea.storefront.products.add_to_cart')
+
+        assert(page.has_content?('Success'))
+        assert(page.has_content?(@product.name))
+
+        click_link t('workarea.storefront.carts.view_cart')
+        refute(page.has_selector?('.affirm-as-low-as', visible: false))
+      end
+
        def test_show_affirm_message
         Workarea.config.affirm_minimum_order_value = nil
 

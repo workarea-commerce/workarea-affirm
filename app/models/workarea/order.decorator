@@ -1,0 +1,7 @@
+module Workarea
+  decorate Order, with: 'affirm' do
+    def affirm_available?
+      requires_shipping? && items.all?(&:affirm_available?)
+    end
+  end
+end

@@ -2,7 +2,14 @@
   .checkout-payment__primary-method
     - minimum = Workarea.config.affirm_minimum_order_value.to_m
 
-    - if current_order.total_price < minimum
+    - if !current_order.affirm_available?
+      .button-property
+        .value= radio_button_tag nil, nil, false, disabled: true
+        = label_tag nil, nil, class: 'button-property__name' do
+          %span.payment-icon.payment-icon--affirm
+          = t('workarea.storefront.affirm.disqualifying_items')
+
+    - elsif current_order.total_price < minimum
       .button-property
         .value= radio_button_tag nil, nil, false, disabled: true
         = label_tag nil, nil, class: 'button-property__name' do

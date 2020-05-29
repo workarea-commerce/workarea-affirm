@@ -1,0 +1,7 @@
+module Workarea
+  decorate Catalog::Product, with: 'affirm' do
+    decorated do
+      field :affirm_available, type: Boolean, default: true
+    end
+  end
+end

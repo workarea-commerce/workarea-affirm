@@ -2,6 +2,11 @@
 en:
   workarea:
     admin:
+      catalog_products:
+        affirm:
+          allow_affirm: Allow Affirm payment for this product
+          allow: Allowed
+          not_allowed: Not Allowed
       orders:
         tenders:
           affirm:
@@ -15,6 +20,7 @@ en:
         cancel_message: Your Affirm order has been cancelled. Please select another payment method.
         check_out: Check Out with affirm
         checkout_submit_text: Continue to Affirm
+        disqualifying_items: One or more items in your cart do not qualify for Affirm payment.
         on_continue: When you continue, you will be taken to the Affirm website to complete your order.
         paid_with_affirm: Paid with Affirm
         payment_error: There was a problem processing your Affirm payment.
