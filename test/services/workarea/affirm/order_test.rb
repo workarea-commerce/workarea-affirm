@@ -39,6 +39,11 @@ module Workarea
         assert_equal("SKU", affirm_item[:sku])
         assert_equal(500, affirm_item[:unit_price])
         assert_equal(2, affirm_item[:qty])
+
+        metadata = hash[:metadata]
+        assert_equal('Workarea', metadata[:platform_type])
+        assert_equal(Workarea::VERSION::STRING, metadata[:platform_version])
+        assert_equal(Workarea::Affirm::VERSION, metadata[:platform_affirm])
       end
     end
   end
