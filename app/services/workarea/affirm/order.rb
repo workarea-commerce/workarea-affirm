@@ -40,7 +40,8 @@ module Workarea
           order_id: order.id,
           shipping_amount: order.shipping_total.cents,
           tax_amount: order.tax_total.cents,
-          total: order.order_balance.cents
+          total: order.order_balance.cents,
+          metadata: metadata
         }
       end
 
@@ -100,6 +101,19 @@ module Workarea
 
       def host
         "https://#{Workarea.config.host}"
+      end
+
+      # This is used for platform attribution. Please do not change
+      # these values.
+      #
+      # @private
+      # @return [Hash]
+      def metadata
+        {
+          platform_type: 'Workarea',
+          platform_version: Workarea::VERSION::STRING,
+          platform_affirm: Workarea::Affirm::VERSION
+        }
       end
     end
   end
