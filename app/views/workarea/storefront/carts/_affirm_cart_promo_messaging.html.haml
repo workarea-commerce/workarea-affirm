@@ -1,5 +1,5 @@
-- if Workarea::Affirm.enabled? && current_order.affirm_available? && @cart.total_price >= Workarea.config.affirm_minimum_order_value.to_m
-  .affirm-as-low-as.affirm-as-low-as--cart{ data: { amount: @cart.total_price.cents, affirm_type: 'text', learnmore_show: 'false'}}
+- if Workarea::Affirm.enabled? && Workarea.config.affirm_show_cart_messaging && current_order.affirm_available? && @cart.total_price >= Workarea.config.affirm_minimum_order_value.to_m
+  .affirm-as-low-as.affirm-as-low-as--cart{ data: { amount: @cart.total_price.cents, affirm_color: Workarea.config.affirm_cart_logo_color, affirm_type: Workarea.config.affirm_cart_logo_type, learnmore_show: 'false'}}
   .affirm-as-low-as__subtext
     = t('workarea.storefront.affirm.select')
     %span.payment-icon.payment-icon--affirm

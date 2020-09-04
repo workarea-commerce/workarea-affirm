@@ -1,5 +1,6 @@
 WORKAREA.analytics.registerAdapter('affirm', function () {
     var productListImpressions = [],
+        enabled = !_.isEmpty($('meta[name="affirm-analytics"]')),
 
         whenAffirmReady = function (fn) {
               if (window.affirm && affirm.ui) {
@@ -44,6 +45,10 @@ WORKAREA.analytics.registerAdapter('affirm', function () {
                 'variant': payload.sku
             };
         };
+
+    if (!enabled) {
+      return {}
+    }
 
     return {
       'productList': function (payload) {

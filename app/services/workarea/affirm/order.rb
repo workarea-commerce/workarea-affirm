@@ -112,7 +112,8 @@ module Workarea
         {
           platform_type: 'Workarea',
           platform_version: Workarea::VERSION::STRING,
-          platform_affirm: Workarea::Affirm::VERSION
+          platform_affirm: Workarea::Affirm::VERSION,
+          mode: Workarea.config.affirm_modal_checkout ? 'modal' : 'redirect'
         }
       end
     end
