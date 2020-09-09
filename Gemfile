@@ -14,3 +14,4 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: %i[development test]
 gem 'workarea', github: 'workarea-commerce/workarea', branch: 'v3.5-stable'
+gem 'workarea-gift_cards'

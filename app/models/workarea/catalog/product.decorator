@@ -1,7 +1,36 @@
 module Workarea
   decorate Catalog::Product, with: 'affirm' do
     decorated do
-      field :affirm_available, type: Boolean, default: true
+      field :affirm_available, type: Boolean, default: -> {
+        default_affirm_available
+      }
+      validate :gift_card_cannot_be_purchased_using_affirm
+    end
+
+    private
+
+    # Affirm does not allow a gift card to be purchased using its
+    # service, so this validation prevents admins (or anyone else) from
+    # setting both of these flags to true.
+    #
+    # @private
+    def gift_card_cannot_be_purchased_using_affirm
+      if try(:gift_card?) && affirm_available?
+        cannot_be_set_for_gift_cards = I18n.t(
+          'workarea.admin.catalog_products.affirm.cannot_be_set_for_gift_cards'
+        )
+
+        errors.add(:affirm_available, cannot_be_set_for_gift_cards)
+      end
+    end
+
+    # The default value for `:affirm_available` depends on whether the
+    # Gift Cards plugin is installed, and `:gift_card` is set to true.
+    #
+    # @private
+    # @return [Boolean] Default value for the `:affirm_available` field.
+    def default_affirm_available
+      try(:gift_card?) ? false : true
     end
   end
 end
