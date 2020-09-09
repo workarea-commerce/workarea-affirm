@@ -17,7 +17,11 @@ module Workarea
 
       def test_affirm_option_in_checkout
         choose 'payment_affirm'
-        assert(page.has_content?(I18n.t('workarea.storefront.affirm.on_continue')))
+
+        assert_match(
+          I18n.t('workarea.storefront.affirm.on_continue_html'),
+          page.body
+        )
       end
     end
   end
