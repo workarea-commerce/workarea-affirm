@@ -31,6 +31,11 @@ module Workarea
         to_hash.to_json
       end
 
+      # Parameters sent to `affirm.checkout()` in the JavaScript code,
+      # encoded to JSON.
+      #
+      # @see https://docs.affirm.com/affirm-developers/reference#the-checkout-object
+      # @return [Hash]
       def to_hash
         {
           merchant: merchant,
@@ -41,7 +46,9 @@ module Workarea
           shipping_amount: order.shipping_total.cents,
           tax_amount: order.tax_total.cents,
           total: order.order_balance.cents,
-          metadata: metadata
+          metadata: metadata,
+          currency: order.order_balance.currency,
+          discounts: discounts
         }
       end
 
@@ -90,7 +97,8 @@ module Workarea
             unit_price: item.original_price.cents,
             qty: item.quantity,
             item_image_url: ProductImageUrl.product_image_url(item.image, :detail),
-            item_url: ProductUrl.product_url(id: item.product.to_param, host: Workarea.config.host)
+            item_url: ProductUrl.product_url(id: item.product.to_param, host: Workarea.config.host),
+            categories: Categorization.new(item.catalog_product).to_models.map(&:name)
           }
         end
       end
@@ -114,6 +122,31 @@ module Workarea
           platform_version: Workarea::VERSION::STRING,
           platform_affirm: Workarea::Affirm::VERSION
         }
+      end
+
+      # Formatted list of discounts on this order according to Affirm's
+      # specifications
+      #
+      # @private
+      # @see https://docs.affirm.com/affirm-developers/reference#the-discount-object
+      # @return [Hash]
+      def discounts
+        discount_adjustments.each_with_object({}) do |adjustment, discounts|
+          code = adjustment.data['discount_id'] || adjustment.id
+          discounts[code] = {
+            discount_amount: adjustment.amount.cents.abs,
+            discount_display_name: adjustment.description
+          }
+        end
+      end
+
+      # All price adjustments on this order that resulted in a discount
+      # of price.
+      #
+      # @private
+      # @return [Workarea::PriceAdjustmentSet]
+      def discount_adjustments
+        order.price_adjustments.discounts
       end
     end
   end

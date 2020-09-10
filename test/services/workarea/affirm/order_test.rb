@@ -2,10 +2,28 @@ require 'test_helper'
 
 module Workarea
   module Affirm
-    class OrderTest < Workarea::TestCase
+    class OrderTest < Workarea::IntegrationTest
       def test_to_hash
         Workarea.config.affirm_merchant_name = "Workarea test merchant"
-        order = Workarea::Storefront::OrderViewModel.new(create_placed_order)
+        discount = create_order_total_discount(promo_codes: %w[TESTCODE])
+        order = Workarea::Storefront::OrderViewModel.new(
+          create_placed_order(
+            promo_codes: %w[TESTCODE]
+          )
+        )
+        product = Catalog::Product.find(order.items.first.product_id)
+        categories = [
+          create_category(
+            name: 'Manual',
+            product_ids: [order.items.first.product_id]
+          ),
+          create_category(
+            name: 'Rules',
+            product_rules: [
+              { name: 'search', operator: 'equals', value: product.name }
+            ]
+          )
+        ]
 
         hash = Order.new(order.id).to_hash
 
@@ -13,6 +31,7 @@ module Workarea
         assert_equal(order.order_balance.cents, hash[:total])
         assert_equal(order.tax_total.cents, hash[:tax_amount])
         assert_equal(order.shipping_total.cents, hash[:shipping_amount])
+        assert_equal(Money.default_currency, hash[:currency])
 
         assert_equal("Workarea test merchant", hash[:merchant][:name])
 
@@ -39,11 +58,23 @@ module Workarea
         assert_equal("SKU", affirm_item[:sku])
         assert_equal(500, affirm_item[:unit_price])
         assert_equal(2, affirm_item[:qty])
+        assert_includes(affirm_item[:categories], categories.first.name)
+        assert_includes(affirm_item[:categories], categories.second.name)
 
         metadata = hash[:metadata]
         assert_equal('Workarea', metadata[:platform_type])
         assert_equal(Workarea::VERSION::STRING, metadata[:platform_version])
         assert_equal(Workarea::Affirm::VERSION, metadata[:platform_affirm])
+
+        discounts = hash[:discounts]
+
+        refute_empty(discounts)
+
+        promo = discounts[discount.id.to_s]
+
+        refute_nil(promo, discounts)
+        assert_equal(100, promo[:discount_amount])
+        assert_equal(discount.name, promo[:discount_display_name])
       end
     end
   end
