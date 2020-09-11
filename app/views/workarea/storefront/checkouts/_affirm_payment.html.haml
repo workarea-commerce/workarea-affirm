@@ -24,6 +24,6 @@
       %p.checkout-payment__primary-method-description
         %span.affirm-as-low-as.affirm-as-low-as--payment{ data: { amount: step.order.total_price.cents, affirm_type: 'text', learnmore_show: 'false'}}
       %p.checkout-payment__primary-method-edit
-        %span= t('workarea.storefront.affirm.on_continue')
+        %span= t('workarea.storefront.affirm.on_continue_html')
 
       = render 'workarea/storefront/checkouts/affirm_cart'

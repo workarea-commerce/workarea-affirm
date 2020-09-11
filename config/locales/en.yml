@@ -21,7 +21,7 @@ en:
         check_out: Check Out with affirm
         checkout_submit_text: Continue to Affirm
         disqualifying_items: One or more items in your cart do not qualify for Affirm payment.
-        on_continue: When you continue, you will be taken to the Affirm website to complete your order.
+        on_continue_html: <strong>How does Affirm work?</strong><br><br>You will be redirected to Affirm to securely complete your purchase. Just fill out a few pieces of basic information and get a real-time decision. Checking your eligibility won't affect your credit score.
         paid_with_affirm: Paid with Affirm
         payment_error: There was a problem processing your Affirm payment.
         affirm: Affirm
