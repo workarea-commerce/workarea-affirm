@@ -1,5 +1,5 @@
-- if Workarea::Affirm.enabled? && @product.affirm_available? && @product.sell_min_price.present?
-  .affirm-as-low-as.affirm-as-low-as--cart{ data: { amount: @product.sell_min_price.cents, affirm_type: 'text', learnmore_show: 'false'}}
+- if Workarea::Affirm.enabled? && Workarea.config.affirm_show_pdp_messaging && @product.affirm_available? && @product.sell_min_price.present?
+  .affirm-as-low-as.affirm-as-low-as--pdp{ data: { amount: @product.sell_min_price.cents, affirm_color: Workarea.config.affirm_pdp_logo_color, affirm_type: Workarea.config.affirm_pdp_logo_type, learnmore_show: 'false'}}
   .affirm-as-low-as__subtext
     Select
     %span.payment-icon.payment-icon--affirm

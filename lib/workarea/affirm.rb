@@ -8,7 +8,7 @@ require 'workarea/affirm/bogus_gateway'
 
 module Workarea
   module Affirm
-        def self.public_key
+    def self.public_key
       Workarea.config.affirm_public_key
     end
 
