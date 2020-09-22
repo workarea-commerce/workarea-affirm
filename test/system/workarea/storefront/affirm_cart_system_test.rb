@@ -54,7 +54,7 @@ module Workarea
         refute(page.has_selector?('.affirm-as-low-as', visible: false))
       end
 
-       def test_show_affirm_message
+      def test_show_affirm_message
         Workarea.config.affirm_minimum_order_value = nil
 
         visit storefront.product_path(@product)
