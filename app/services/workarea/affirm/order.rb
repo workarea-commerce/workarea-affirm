@@ -47,7 +47,7 @@ module Workarea
           tax_amount: order.tax_total.cents,
           total: order.order_balance.cents,
           metadata: metadata,
-          currency: order.order_balance.currency,
+          currency: order.order_balance.currency.iso_code,
           discounts: discounts
         }
       end

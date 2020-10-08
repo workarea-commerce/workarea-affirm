@@ -31,7 +31,7 @@ module Workarea
         assert_equal(order.order_balance.cents, hash[:total])
         assert_equal(order.tax_total.cents, hash[:tax_amount])
         assert_equal(order.shipping_total.cents, hash[:shipping_amount])
-        assert_equal(Money.default_currency, hash[:currency])
+        assert_equal(Money.default_currency.iso_code, hash[:currency])
 
         assert_equal("Workarea test merchant", hash[:merchant][:name])
 
