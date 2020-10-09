@@ -22,7 +22,7 @@
         = label_tag 'payment[affirm]', nil, class: 'button-property__name' do
           %span.payment-icon.payment-icon--affirm
       %p.checkout-payment__primary-method-description
-        %span.affirm-as-low-as.affirm-as-low-as--payment{ data: { amount: step.order.total_price.cents, affirm_type: 'text', learnmore_show: 'false'}}
+        %span.affirm-as-low-as.affirm-as-low-as--payment{ data: { amount: step.order.total_price.cents, affirm_type: 'text' } }
       %p.checkout-payment__primary-method-edit
         %span= t('workarea.storefront.affirm.on_continue_html')
 
