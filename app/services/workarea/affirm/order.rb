@@ -134,10 +134,9 @@ module Workarea
       def discounts
         discount_adjustments.each_with_object({}) do |adjustment, discounts|
           code = adjustment.data['discount_id'] || adjustment.id
-          discounts[code] = {
-            discount_amount: adjustment.amount.cents.abs,
-            discount_display_name: adjustment.description
-          }
+          discounts[code] ||= { discount_amount: 0 }
+          discounts[code][:discount_display_name] ||= adjustment.description
+          discounts[code][:discount_amount] += adjustment.amount.cents.abs
         end
       end
 

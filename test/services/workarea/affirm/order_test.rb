@@ -7,7 +7,7 @@ module Workarea
         Workarea.config.affirm_merchant_name = "Workarea test merchant"
         discount = create_order_total_discount(promo_codes: %w[TESTCODE])
         order = Workarea::Storefront::OrderViewModel.new(
-          create_placed_order(
+          create_multi_item_placed_order(
             promo_codes: %w[TESTCODE]
           )
         )
@@ -54,11 +54,18 @@ module Workarea
         assert_equal(order.billing_address.country.alpha3, affirm_billing[:address][:country])
 
         affirm_item = hash[:items].first
-        assert_equal("Test Product", affirm_item[:display_name])
-        assert_equal("SKU", affirm_item[:sku])
+        assert_equal("Test Product 2", affirm_item[:display_name])
+        assert_equal("SKU2", affirm_item[:sku])
         assert_equal(500, affirm_item[:unit_price])
         assert_equal(2, affirm_item[:qty])
         assert_includes(affirm_item[:categories], categories.first.name)
+        assert_includes(affirm_item[:categories], categories.second.name)
+
+        affirm_item = hash[:items].second
+        assert_equal("Test Product 1", affirm_item[:display_name])
+        assert_equal("SKU1", affirm_item[:sku])
+        assert_equal(500, affirm_item[:unit_price])
+        assert_equal(2, affirm_item[:qty])
         assert_includes(affirm_item[:categories], categories.second.name)
 
         metadata = hash[:metadata]
@@ -73,8 +80,48 @@ module Workarea
         promo = discounts[discount.id.to_s]
 
         refute_nil(promo, discounts)
-        assert_equal(100, promo[:discount_amount])
+        assert_equal(200, promo[:discount_amount])
         assert_equal(discount.name, promo[:discount_display_name])
+      end
+
+      private
+
+      def create_multi_item_placed_order(overrides = {})
+        attributes = factory_defaults(:placed_order).merge(overrides)
+
+        shipping_service = create_shipping_service
+        sku1 = 'SKU1'
+        sku2 = 'SKU2'
+        create_product(name: 'Test Product 1', variants: [{ sku: sku1, regular: 5.to_m }])
+        create_product(name: 'Test Product 2', variants: [{ sku: sku2, regular: 5.to_m }])
+        order = Workarea::Order.new(attributes)
+
+        [sku1, sku2].each do |sku|
+          details = OrderItemDetails.find(sku)
+          item = { sku: sku, quantity: 2 }.merge(details.to_h)
+
+          order.add_item(item)
+        end
+
+        checkout = Checkout.new(order)
+        checkout.update(
+          factory_defaults(:checkout_payment).merge(
+            shipping_address: factory_defaults(:shipping_address),
+            billing_address: factory_defaults(:billing_address),
+            shipping_service: shipping_service.name,
+          )
+        )
+
+        unless checkout.place_order
+          raise(
+            UnplacedOrderError,
+            'failed placing the order in the create_placed_order factory'
+          )
+        end
+
+        forced_attrs = overrides.slice(:placed_at, :update_at, :total_price)
+        order.update_attributes!(forced_attrs)
+        order
       end
     end
   end
