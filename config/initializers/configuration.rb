@@ -1,4 +1,10 @@
 Workarea::Configuration.define_fields do
+  affirm_colors = [
+    ['Blue + Black', nil],
+    ['White', 'white'],
+    ['Black', 'black']
+  ]
+
   fieldset 'Affirm', namespaced: true do
     field 'Enabled',
       id: :enabled,
@@ -61,8 +67,8 @@ Workarea::Configuration.define_fields do
     field 'PDP Logo Color',
       id: :pdp_logo_color,
       type: :string,
-      description: 'The color of the logo that Affirm places in the product page messaging',
-      values: %w[white black],
+      description: 'The color of the logo that Affirm places in the product page messaging.',
+      values: affirm_colors,
       allow_blank: true
 
     field 'PDP Logo Type',
@@ -75,12 +81,26 @@ Workarea::Configuration.define_fields do
     field 'Cart Logo Color',
       id: :cart_logo_color,
       type: :string,
-      description: 'The color of the logo that Affirm places in the cart messaging',
-      values: %w[white black],
+      description: 'The color of the logo that Affirm places in the cart messaging.',
+      values: affirm_colors,
       allow_blank: true
 
     field 'Cart Logo Type',
       id: :cart_logo_type,
+      type: :string,
+      description: 'The type of logo that Affirm places in the cart messaging',
+      values: %w[text symbol],
+      allow_blank: true
+
+    field 'Checkout Logo Color',
+      id: :checkout_logo_color,
+      type: :string,
+      description: 'The color of the logo that Affirm places in the cart messaging.',
+      values: affirm_colors,
+      allow_blank: true
+
+    field 'Checkout Logo Type',
+      id: :checkout_logo_type,
       type: :string,
       description: 'The type of logo that Affirm places in the cart messaging',
       values: %w[text symbol],
